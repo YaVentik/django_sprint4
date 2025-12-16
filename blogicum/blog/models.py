@@ -1,4 +1,3 @@
-# type: ignore
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -84,6 +83,13 @@ class Post(models.Model):
         null=True,
         verbose_name='Категория'
     )
+    image = models.ImageField(
+        'Изображение',
+        upload_to='posts_images/',
+        blank=True,
+        null=True,
+        help_text='Загрузите изображение для публикации'
+    )
     is_published = models.BooleanField(
         'Опубликовано',
         default=True,
@@ -100,3 +106,32 @@ class Post(models.Model):
     def __str__(self) -> str:
         """Строковое представление объекта Post."""
         return self.title
+
+
+class Comment(models.Model):
+    """Модель комментария к публикации."""
+
+    text = models.TextField('Текст комментария')
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        verbose_name='Публикация',
+        related_name='comments'
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Автор комментария'
+    )
+    created_at = models.DateTimeField('Добавлено', auto_now_add=True)
+
+    class Meta:
+        """Мета-класс для настроек модели Comment."""
+
+        verbose_name = 'комментарий'
+        verbose_name_plural = 'Комментарии'
+        ordering = ['created_at']  # сортировка от старых к новым
+
+    def __str__(self):
+        """Строковое представление объекта Comment."""
+        return f'Комментарий от {self.author.username} к "{self.post.title}"'

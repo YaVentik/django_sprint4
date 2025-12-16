@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+  Редактирование профиля
+{% endblock %}
+
+{% block content %}
+  <div class="col d-flex justify-content-center">
+    <div class="card" style="width: 40rem;">
+      <div class="card-header">
+        Редактирование профиля
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          <div class="d-flex justify-content-between mt-3">
+            <button type="submit" class="btn btn-primary">
+              Сохранить изменения
+            </button>
+            <div>
+              <a href="{% url 'blog:profile' user.username %}" class="btn btn-secondary me-2">
+                Отмена
+              </a>
+              <a href="{% url 'password_change' %}" class="btn btn-outline-primary">
+                Изменить пароль
+              </a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
