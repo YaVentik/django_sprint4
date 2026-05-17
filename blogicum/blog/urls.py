@@ -1,6 +1,7 @@
 from django.urls import path
 from django.views.generic import RedirectView
 from . import views
+from . import api_views
 
 app_name = 'blog'
 
@@ -24,4 +25,15 @@ urlpatterns = [
     path('edit-profile/', views.edit_profile, name='edit_profile'),
     path('accounts/profile/', RedirectView.as_view(url='/', permanent=False)),
     path('test-email/', views.test_email, name='test_email'),
+    # API маршруты для нагрузочного тестирования
+    path('api/posts/', api_views.api_posts, name='api_posts'),
+    path('api/posts/<int:post_id>/', api_views.api_post_detail, name='api_post_detail'),
+    path('api/posts/create/', api_views.api_create_post, name='api_create_post'),
+    path('api/posts/<int:post_id>/delete/', api_views.api_delete_post, name='api_delete_post'),
+    path('api/posts/<int:post_id>/comment/', api_views.api_create_comment, name='api_create_comment'),
+    path('api/category/<slug:category_slug>/', api_views.api_category_posts, name='api_category_posts'),
+    path('api/user/<str:username>/posts/', api_views.api_user_posts, name='api_user_posts'),
+    path('api/users/', api_views.api_users, name='api_users'),
+    path('api/users/<int:user_id>/', api_views.api_user_detail, name='api_user_detail'),
+    path('api/register/', api_views.api_register, name='api_register'),
 ]
