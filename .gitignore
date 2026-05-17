@@ -149,4 +149,6 @@ dmypy.json
 media/
 
 sent_emails/
-
+# PostgreSQL
+.env
+postgres_data/
