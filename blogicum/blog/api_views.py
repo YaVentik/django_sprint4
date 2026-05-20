@@ -12,11 +12,10 @@ User = get_user_model()
 
 
 def json_response(data, status=200):
-    """Утилита для统一 JSON-ответа"""
+    """Утилита для JSON-ответа"""
     return JsonResponse(data, status=status, json_dumps_params={'ensure_ascii': False})
 
 
-# ========== GET ЭНДПОИНТЫ ==========
 
 @require_http_methods(["GET"])
 def api_posts(request):
@@ -196,14 +195,13 @@ def api_user_detail(request, user_id):
     return json_response(data)
 
 
-# ========== POST ЭНДПОИНТЫ ==========
 
 @csrf_exempt
 @require_http_methods(["POST"])
 def api_create_post(request):
     """Создание поста (аналог FastAPI POST /posts/)"""
-    if not request.user.is_authenticated:
-        return json_response({'error': 'Unauthorized'}, 401)
+    # if not request.user.is_authenticated:
+    #     return json_response({'error': 'Unauthorized'}, 401)
 
     try:
         data = json.loads(request.body)
@@ -235,8 +233,8 @@ def api_create_post(request):
 @require_http_methods(["POST"])
 def api_delete_post(request, post_id):
     """Удаление поста (аналог FastAPI DELETE /posts/{id})"""
-    if not request.user.is_authenticated:
-        return json_response({'error': 'Unauthorized'}, 401)
+    # if not request.user.is_authenticated:
+    #     return json_response({'error': 'Unauthorized'}, 401)
 
     try:
         post = Post.objects.get(id=post_id)
@@ -254,8 +252,8 @@ def api_delete_post(request, post_id):
 @require_http_methods(["POST"])
 def api_create_comment(request, post_id):
     """Создание комментария (аналог FastAPI POST /comments/)"""
-    if not request.user.is_authenticated:
-        return json_response({'error': 'Unauthorized'}, 401)
+    # if not request.user.is_authenticated:
+    #     return json_response({'error': 'Unauthorized'}, 401)
 
     try:
         post = Post.objects.get(id=post_id)
